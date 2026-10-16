@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Feliz Día del Profesor, Papá y Mamá! ❤️ De Sebastián, Isabella y Leah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #fdf8f2;
+      --bg-paper: #ffffff;
+      --text-main: #2d2622;
+      --text-muted: #6e6259;
+      --accent-gold: #e6a145;
+      --accent-warm: #e06d53;
+
+      /* Tema Papá (Mates - Pizarrón cálido, azul noche y dorado) */
+      --papa-bg: #162623;
+      --papa-card: #1f3530;
+      --papa-border: #385a52;
+      --papa-accent: #f4b942;
+      --papa-accent-soft: rgba(244, 185, 66, 0.16);
+      --papa-chalk: #f3f7f5;
+      --papa-chalk-muted: #b5c7c1;
+      --papa-cyan: #6bd4cd;
+
+      /* Tema Mamá (Diferencial - Rosa empolvado, lavanda, salvia y dorado) */
+      --mama-bg: #fff5f6;
+      --mama-card: #ffffff;
+      --mama-border: #f5d0d6;
+      --mama-accent: #d95d78;
+      --mama-accent-soft: rgba(217, 93, 120, 0.12);
+      --mama-purple: #845ec2;
+      --mama-sage: #4a9079;
+      --mama-text: #3d262b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s ease;
+      position: relative;
+    }
+
+    body.mode-papa {
+      background-color: #101c1a;
+      color: var(--papa-chalk);
+    }
+
+    body.mode-mama {
+      background-color: #fdf0f2;
+      color: var(--mama-text);
+    }
+
+    /* Canvas de partículas de fondo */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Botón flotante de música suave */
+    .audio-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      color: var(--text-main);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.25s ease;
+    }
+    .audio-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+    .audio-btn.playing {
+      background: #fff3d6;
+      border-color: var(--accent-gold);
+    }
+
+    /* Contenedor de vistas */
+    .view-section {
+      display: none;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ================= VISTA 1: PORTADA FAMILIAR ================= */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: #ffeacc;
+      color: #9e5814;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(230, 161, 69, 0.15);
+    }
+
+    .hero-header {
+      text-align: center;
+      max-width: 780px;
+      margin: 10px auto 36px;
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      color: #261d18;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span.highlight-papa {
+      color: #1f5c4e;
+      text-decoration: underline wavy #e6a145 2px;
+      text-underline-offset: 6px;
+    }
+
+    .hero-title span.highlight-mama {
+      color: #c94a68;
+      text-decoration: underline wavy #e98ca1 2px;
+      text-underline-offset: 6px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* Carta Principal de los 3 hijos */
+    .family-letter {
+      background: var(--bg-paper);
+      border-radius: 28px;
+      padding: 36px 40px;
+      box-shadow: 0 20px 50px rgba(60, 40, 20, 0.07);
+      border: 2px solid #f3e6d6;
+      position: relative;
+      margin-bottom: 44px;
+      overflow: hidden;
+    }
+
+    .family-letter::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #2a6f62, #e6a145, #d95d78, #845ec2);
+    }
+
+    .letter-greeting {
+      font-family: 'Caveat', cursive;
+      font-size: 2.1rem;
+      color: #b85635;
+      margin-bottom: 14px;
+    }
+
+    .letter-body {
+      font-size: 1.06rem;
+      line-height: 1.8;
+      color: #3d332c;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Chips de los 3 hijos */
+    .kids-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px dashed #e6d7c3;
+    }
+
+    .kid-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fdf7f0;
+      border: 1.5px solid #eddcc7;
+      padding: 12px 20px;
+      border-radius: 20px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+    .kid-badge:hover {
+      transform: translateY(-4px) rotate(-1deg);
+      box-shadow: 0 8px 20px rgba(180, 120, 60, 0.12);
+    }
+
+    .kid-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .kid-avatar.seba { background: #dff2ef; }
+    .kid-avatar.isa { background: #fce4ec; }
+    .kid-avatar.leah { background: #fff3cd; }
+
+    .kid-info h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #2d2622;
+    }
+    .kid-info p {
+      font-size: 0.78rem;
+      color: #827163;
+      font-weight: 500;
+    }
+
+    /* Sección de Portales Dobles */
+    .portals-heading {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .portals-heading h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      margin-bottom: 8px;
+    }
+    .portals-heading p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .portals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 28px;
+    }
+
+    .portal-card {
+      border-radius: 28px;
+      padding: 34px 30px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 360px;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+    }
+
+    /* Portal Papá */
+    .portal-papa {
+      background: linear-gradient(145deg, #1b332e 0%, #12221f 100%);
+      color: #f4f7f6;
+      border: 2px solid #2e544c;
+      box-shadow: 0 18px 40px rgba(18, 34, 31, 0.22);
+    }
+    .portal-papa:hover {
+      box-shadow: 0 24px 50px rgba(18, 34, 31, 0.35);
+      border-color: var(--papa-accent);
+    }
+
+    /* Portal Mamá */
+    .portal-mama {
+      background: linear-gradient(145deg, #fff5f7 0%, #fce6eb 100%);
+      color: #3d2429;
+      border: 2px solid #f3bac6;
+      box-shadow: 0 18px 40px rgba(217, 93, 120, 0.14);
+    }
+    .portal-mama:hover {
+      box-shadow: 0 24px 50px rgba(217, 93, 120, 0.26);
+      border-color: var(--mama-accent);
+    }
+
+    .portal-lock-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 13px;
+      border-radius: 999px;
+      width: fit-content;
+      margin-bottom: 18px;
+    }
+
+    .portal-papa .portal-lock-tag {
+      background: rgba(244, 185, 66, 0.2);
+      color: #f8ca64;
+      border: 1px solid rgba(244, 185, 66, 0.35);
+    }
+
+    .portal-mama .portal-lock-tag {
+      background: rgba(217, 93, 120, 0.14);
+      color: #c2415d;
+      border: 1px solid rgba(217, 93, 120, 0.28);
+    }
+
+    .portal-icon-wrap {
+      font-size: 3.1rem;
+      margin-bottom: 14px;
+    }
+
+    .portal-title {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .portal-role {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      opacity: 0.9;
+    }
+    .portal-papa .portal-role { color: #7fe0d8; }
+    .portal-mama .portal-role { color: #b8425c; }
+
+    .portal-desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.88;
+      margin-bottom: 26px;
+    }
+
+    .portal-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 0.96rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      width: 100%;
+    }
+    .portal-papa .portal-cta {
+      background: var(--papa-accent);
+      color: #162623;
+    }
+    .portal-mama .portal-cta {
+      background: var(--mama-accent);
+      color: #ffffff;
+    }
+    .portal-card:hover .portal-cta {
+      filter: brightness(1.05);
+    }
+
+    .bg-watermark {
+      position: absolute;
+      right: -12px;
+      bottom: 45px;
+      font-size: 5.5rem;
+      opacity: 0.08;
+      pointer-events: none;
+      user-select: none;
+      font-family: 'Fraunces', serif;
+    }
+
+    /* ================= MODAL DE GUARDIÁN ("SOLO PARA PAPÁ / MAMÁ") ================= */
+    .gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 16, 14, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .gate-overlay.open {
+      display: flex;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .gate-modal {
+      background: #ffffff;
+      color: var(--text-main);
+      max-width: 440px;
+      width: 100%;
+      border-radius: 28px;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.28);
+      transform: scale(0.95);
+      animation: popIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes popIn {
+      to { transform: scale(1); }
+    }
+
+    .gate-emoji {
+      font-size: 3.4rem;
+      margin-bottom: 12px;
+    }
+    .gate-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.65rem;
+      margin-bottom: 10px;
+    }
+    .gate-text {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .gate-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gate-btn-confirm {
+      padding: 14px 20px;
+      border-radius: 14px;
+      border: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .gate-btn-confirm:hover {
+      transform: scale(1.02);
+    }
+    .gate-btn-cancel {
+      padding: 10px;
+      background: transparent;
+      border: none;
+      color: #85776c;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* ================= BARRA DE NAVEGACIÓN INTERNA ================= */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .mode-papa .back-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--papa-chalk);
+      border-color: var(--papa-border);
+    }
+    .mode-papa .back-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .mode-mama .back-btn {
+      background: #ffffff;
+      color: var(--mama-text);
+      border-color: var(--mama-border);
+      box-shadow: 0 4px 12px rgba(217, 93, 120, 0.08);
+    }
+    .mode-mama .back-btn:hover {
+      background: #fff8f9;
+      transform: translateX(-3px);
+    }
+
+    /* ================= ESTILOS SECCIÓN PAPÁ (MATEMÁTICAS) ================= */
+    .papa-banner {
+      background: linear-gradient(135deg, #1b3530 0%, #142622 100%);
+      border: 2px solid var(--papa-border);
+      border-radius: 28px;
+      padding: 38px 34px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .papa-banner::after {
+      content: "∑ π ∞ √x ∫ f(x)";
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      color: rgba(243, 247, 245, 0.15);
+      letter-spacing: 8px;
+      pointer-events: none;
+    }
+
+    .section-tag-papa {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--papa-accent-soft);
+      color: var(--papa-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+
+    .papa-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: #ffffff;
+      margin-bottom: 14px;
+    }
+
+    .papa-letter-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #d9e6e2;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .math-formula-highlight {
+      margin: 18px 0 6px;
+      padding: 16px 22px;
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 4px solid var(--papa-accent);
+      border-radius: 12px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.55rem;
+      color: var(--papa-accent);
+    }
+
+    /* Mensajes de los 3 hijos en pestañas / tarjetas */
+    .kids-messages-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.65rem;
+      margin: 36px 0 18px;
+      text-align: center;
+    }
+
+    .kids-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .kid-msg-card {
+      border-radius: 24px;
+      padding: 26px 24px;
+      position: relative;
+      transition: transform 0.25s ease;
+    }
+    .kid-msg-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Tarjetas de hijos en modo Papá */
+    .mode-papa .kid-msg-card {
+      background: var(--papa-card);
+      border: 1.5px solid var(--papa-border);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    }
+
+    /* Tarjetas de hijos en modo Mamá */
+    .mode-mama .kid-msg-card {
+      background: #ffffff;
+      border: 1.5px solid var(--mama-border);
+      box-shadow: 0 12px 30px rgba(217, 93, 120, 0.08);
+    }
+
+    .kid-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .kid-card-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25rem;
+    }
+    .kid-card-role {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      font-weight: 600;
+    }
+
+    .kid-card-quote {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .kid-card-sign {
+      font-family: 'Caveat', cursive;
+      font-size: 1.45rem;
+      text-align: right;
+    }
+    .mode-papa .kid-card-sign { color: var(--papa-accent); }
+    .mode-mama .kid-card-sign { color: var(--mama-accent); }
+
+    /* Interactivos de Papá: Calculadora del Amor + Graficador de Corazón */
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .widget-box {
+      border-radius: 24px;
+      padding: 28px 24px;
+    }
+
+    .mode-papa .widget-box {
+      background: var(--papa-card);
+      border: 1.5px solid var(--papa-border);
+    }
+
+    .mode-mama .widget-box {
+      background: #ffffff;
+      border: 1.5px solid var(--mama-border);
+      box-shadow: 0 12px 30px rgba(217, 93, 120, 0.07);
+    }
+
+    .widget-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .widget-sub {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    /* Calculadora de Papá */
+    .calc-screen {
+      background: #0d1816;
+      border: 1.5px solid #2b4c44;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .calc-expr {
+      font-size: 0.85rem;
+      color: #6bd4cd;
+      margin-bottom: 6px;
+      font-family: monospace;
+    }
+    .calc-result {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f4b942;
+      line-height: 1.4;
+    }
+
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .calc-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--papa-border);
+      color: var(--papa-chalk);
+      padding: 11px 12px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .calc-btn:hover {
+      background: var(--papa-accent);
+      color: #142622;
+      border-color: var(--papa-accent);
+      transform: translateY(-2px);
+    }
+
+    /* Canvas función corazón para Papá */
+    .heart-graph-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #math-heart-canvas {
+      background: #0d1816;
+      border: 1.5px solid #2b4c44;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 320px;
+      height: 220px;
+      margin-bottom: 14px;
+    }
+    .action-btn-papa {
+      background: var(--papa-accent);
+      color: #142622;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .action-btn-papa:hover {
+      transform: scale(1.03);
+    }
+
+    /* ================= ESTILOS SECCIÓN MAMÁ (EDUCACIÓN DIFERENCIAL) ================= */
+    .mama-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #fff0f3 100%);
+      border: 2px solid var(--mama-border);
+      border-radius: 28px;
+      padding: 38px 34px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(217, 93, 120, 0.1);
+    }
+
+    .section-tag-mama {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--mama-accent-soft);
+      color: var(--mama-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+
+    .mama-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: #4a1e28;
+      margin-bottom: 14px;
+    }
+
+    .mama-letter-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #4f3238;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mama-quote-highlight {
+      margin: 18px 0 6px;
+      padding: 16px 22px;
+      background: #fff5f7;
+      border-left: 4px solid var(--mama-accent);
+      border-radius: 12px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.55rem;
+      color: #b83b56;
+    }
+
+    /* Jardín de Superpoderes de Mamá */
+    .flowers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .flower-btn {
+      background: #fff7f8;
+      border: 1.5px solid #f5ccd4;
+      border-radius: 16px;
+      padding: 14px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.25s ease;
+    }
+    .flower-btn:hover, .flower-btn.bloomed {
+      background: #ffe3e8;
+      border-color: var(--mama-accent);
+      transform: translateY(-3px);
+    }
+    .flower-btn span.f-icon {
+      font-size: 1.8rem;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .flower-btn.bloomed span.f-icon {
+      transform: scale(1.25) rotate(8deg);
+    }
+    .flower-btn span.f-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #5e2c36;
+      text-align: center;
+    }
+
+    .flower-reveal-box {
+      background: #fff5f7;
+      border: 1px dashed #e89aa8;
+      border-radius: 14px;
+      padding: 14px 16px;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.94rem;
+      color: #6b2d39;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Frasco de Abrazos y Valecitos para Mamá */
+    .jar-container {
+      background: linear-gradient(180deg, #fff9fa 0%, #ffeef2 100%);
+      border: 2px solid #f3c2cc;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 14px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .jar-hearts {
+      font-size: 1.6rem;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+      min-height: 32px;
+    }
+    .jar-note {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: #b0324e;
+      line-height: 1.35;
+    }
+    .action-btn-mama {
+      background: var(--mama-accent);
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .action-btn-mama:hover {
+      transform: scale(1.02);
+      filter: brightness(1.05);
+    }
+
+    /* ================= DIPLOMA DE HONOR (COMPARTIDO PERO PERSONALIZADO) ================= */
+    .diploma-card {
+      border-radius: 26px;
+      padding: 34px 28px;
+      text-align: center;
+      position: relative;
+      margin-top: 16px;
+    }
+    .mode-papa .diploma-card {
+      background: linear-gradient(135deg, #213b35 0%, #172a26 100%);
+      border: 2px dashed var(--papa-accent);
+    }
+    .mode-mama .diploma-card {
+      background: linear-gradient(135deg, #fffdf9 0%, #fff2f5 100%);
+      border: 2px dashed var(--mama-accent);
+    }
+
+    .diploma-medal {
+      font-size: 3.2rem;
+      margin-bottom: 8px;
+    }
+    .diploma-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+    .diploma-text {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    .diploma-signatures {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-bottom: 22px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.55rem;
+    }
+
+    @media (max-width: 640px) {
+      .family-letter, .papa-banner, .mama-banner {
+        padding: 26px 20px;
+      }
+      .flowers-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .calc-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas para confeti, corazones y símbolos matemáticos -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Botón de melodía tierna (Web Audio API sin archivos externos) -->
+  <button class="audio-btn" id="music-toggle" onclick="toggleMusic()">
+    <span id="music-icon">🎵</span>
+    <span id="music-label">Melodía tierna</span>
+  </button>
+
+  <!-- Modal Guardián para asegurar que cada uno entre a su rincón exclusivo -->
+  <div class="gate-overlay" id="gate-overlay">
+    <div class="gate-modal">
+      <div class="gate-emoji" id="gate-emoji">🤫</div>
+      <h3 class="gate-title" id="gate-title">¡Alto ahí! Rincón Secreto</h3>
+      <p class="gate-text" id="gate-text"></p>
+      <div class="gate-actions">
+        <button class="gate-btn-confirm" id="gate-confirm-btn">¡Sí, prometo que soy yo!</button>
+        <button class="gate-btn-cancel" onclick="closeGate()">Volver a la portada familiar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       VISTA 1: PORTADA FAMILIAR (PARA AMBOS + LOS 2 APARTADOS)
+       ======================================================================= -->
+  <main class="view-section active" id="view-home">
+    <header class="hero-header">
+      <div class="hero-badge">✨ 16 de Octubre • Feliz Día del Profesor ✨</div>
+      <h1 class="hero-title">
+        Para <span class="highlight-papa">Papá</span> y <span class="highlight-mama">Mamá</span>,<br />
+        nuestros maestros de vida favoritos
+      </h1>
+      <p class="hero-subtitle">
+        Hoy el mundo celebra a quienes enseñan en una sala de clases, pero nosotros tres tenemos la suerte más grande del universo, vivir todos los días con los dos mejores profesores que existen.
+      </p>
+    </header>
+
+    <!-- Carta general de parte de Sebastián, Isabella y Leah -->
+    <section class="family-letter">
+      <div class="letter-greeting">Queridos Papá y Mamá</div>
+      <div class="letter-body">
+        <p>
+          Sabemos cuánta vocación, entrega y amor ponen cada día en su trabajo. <strong>Papá</strong>, enseñando que hasta el problema más grande de matemáticas tiene solución, y <strong>Mamá</strong>, como educadora diferencial, demostrando con el corazón que cada niño es un mundo único y maravilloso que merece brillar a su propio ritmo.
+        </p>
+        <p>
+          Pero la lección más hermosa nos la dan a nosotros en casa. Gracias por enseñarnos a ser unidos, por cuidarnos, por celebrar nuestras alegrías y abrazarnos cuando algo nos cuesta. ¡Estamos tan orgullosos de ser sus hijos!
+        </p>
+      </div>
+
+      <!-- Firma de los 3 hermanos -->
+      <div class="kids-row">
+        <div class="kid-badge" onclick="burstCelebration('general')">
+          <div class="kid-avatar seba">👦🏻</div>
+          <div class="kid-info">
+            <h4>Sebastián</h4>
+            <p>El hermano mayor</p>
+          </div>
+        </div>
+        <div class="kid-badge" onclick="burstCelebration('general')">
+          <div class="kid-avatar isa">👧🏻</div>
+          <div class="kid-info">
+            <h4>Isabella</h4>
+            <p>La de en medio</p>
+          </div>
+        </div>
+        <div class="kid-badge" onclick="burstCelebration('general')">
+          <div class="kid-avatar leah">👧🏻</div>
+          <div class="kid-info">
+            <h4>Leah</h4>
+            <p>La hermana menor</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Apartado Doble: Uno exclusivo para Papá y otro exclusivo para Mamá -->
+    <section>
+      <div class="portals-heading">
+        <h2>💌 Dos Rincones Secretos (¡Uno para cada uno!)</h2>
+        <p>Preparamos un espacio exclusivo para Papá y otro exclusivo para Mamá. ¡Cada uno debe entrar al suyo!</p>
+      </div>
+
+      <div class="portals-grid">
+        <!-- APARTADO PARA PAPÁ -->
+        <article class="portal-card portal-papa" onclick="promptGate('papa')">
+          <div>
+            <div class="portal-lock-tag">🔒 Exclusivo • Solo para Papá</div>
+            <div class="portal-icon-wrap">📐🧮✨</div>
+            <h3 class="portal-title">Para Papá</h3>
+            <div class="portal-role">El Mejor Profe de Mates del Universo</div>
+            <p class="portal-desc">
+              Un pizarrón especial con ecuaciones de cariño, una calculadora familiar y las palabras que Sebastián, Isabella y Leah escribieron solo para ti.
+            </p>
+          </div>
+          <button class="portal-cta" type="button">
+            Entrar al rincón de Papá <span>→</span>
+          </button>
+          <div class="bg-watermark">π ∞</div>
+        </article>
+
+        <!-- APARTADO PARA MAMÁ -->
+        <article class="portal-card portal-mama" onclick="promptGate('mama')">
+          <div>
+            <div class="portal-lock-tag">🔒 Exclusivo • Solo para Mamá</div>
+            <div class="portal-icon-wrap">💖🌸🌱</div>
+            <h3 class="portal-title">Para Mamá</h3>
+            <div class="portal-role">La Profe Diferencial con el Corazón Más Lindo</div>
+            <p class="portal-desc">
+              Un jardín interactivo lleno de ternura, un frasquito de abrazos infinitos y las cartitas que Sebastián, Isabella y Leah prepararon solo para ti.
+            </p>
+          </div>
+          <button class="portal-cta" type="button">
+            Entrar al rincón de Mamá <span>→</span>
+          </button>
+          <div class="bg-watermark">♥ ★</div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- =======================================================================
+       VISTA 2: APARTADO EXCLUSIVO PARA PAPÁ (PROFE DE MATES)
+       ======================================================================= -->
+  <section class="view-section" id="view-papa">
+    <nav class="top-nav">
+      <button class="back-btn" onclick="switchView('home')">
+        ← Volver a la Portada Familiar
+      </button>
+      <button class="back-btn" onclick="promptGate('mama')">
+        Ir al apartado de Mamá 💖
+      </button>
+    </nav>
+
+    <div class="papa-banner">
+      <span class="section-tag-papa">📐 Rincón Exclusivo de Papá • Profe de Matemáticas</span>
+      <h2 class="papa-title">¡Feliz Día del Profesor, Papito Querido!</h2>
+      <div class="papa-letter-text">
+        <p>
+          Papá, sabemos que para ti los números, las fórmulas y la lógica tienen un orden perfecto, pero lo más increíble de ti no está en los libros de álgebra ni de geometría, sino en cómo multiplicas nuestra felicidad todos los días.
+        </p>
+        <p>
+          Gracias por enseñarnos a no rendirnos cuando algo parece difícil, por explicarnos la vida paso a paso con esa dedicación única que tienes, y por ser nuestro punto de equilibrio constante. Si tuviéramos que demostrar cuánto te admiramos, no alcanzarían todos los pizarrones del mundo.
+        </p>
+        <div class="math-formula-highlight">
+          Teorema Familiar: lim (t → ∞) [ Amor(Sebastián + Isabella + Leah) por Papá ] = ∞ ❤️
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensajes individuales de los 3 hijos para Papá -->
+    <h3 class="kids-messages-title">📝 Lo que tus 3 hijos quieren decirte hoy, Papá</h3>
+    <div class="kids-cards-grid">
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar seba">👦🏻</div>
+          <div>
+            <div class="kid-card-name">De Sebastián</div>
+            <div class="kid-card-role">Tu hijo mayor</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          Papá, como el mayor he tenido la suerte de aprender de ti desde el primer día. Gracias por enseñarme a pensar con claridad, a esforzarme y a ser una buena persona. Para mí eres el ejemplo más grande de dedicación como profesor y como papá. ¡Te quiero y te admiro muchísimo!
+        </p>
+        <div class="kid-card-sign">— Seba 📐</div>
+      </div>
+
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar isa">👧🏻</div>
+          <div>
+            <div class="kid-card-name">De Isabella</div>
+            <div class="kid-card-role">Tu hija de en medio</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          ¡Papito lindo! Gracias por tener siempre una sonrisa, un abrazo apretado y toda la paciencia del mundo para explicarme cualquier cosa mil veces sin cansarte. Ninguna suma en el mundo da un resultado tan bonito como tenerte de papá. ¡Feliz día al mejor profe de mates!
+        </p>
+        <div class="kid-card-sign">— Isa ✨</div>
+      </div>
+
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar leah">👧🏻</div>
+          <div>
+            <div class="kid-card-name">De Leah</div>
+            <div class="kid-card-role">Tu hija menor</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          Papi, aunque soy la menor, ¡sé que te quiero hasta el infinito y más allá! Gracias por hacerme reír siempre, por cuidarme tanto y por apoyarme en todo. Eres mi súper héroe de los números y te mando un abrazo gigante en tu día.
+        </p>
+        <div class="kid-card-sign">— Leah 💛</div>
+      </div>
+    </div>
+
+    <!-- Interactivos Matemáticos para Papá -->
+    <div class="interactive-grid">
+      <!-- Widget 1: Calculadora del Amor Familiar -->
+      <div class="widget-box">
+        <h4 class="widget-title">🧮 La Calculadora de Papá</h4>
+        <p class="widget-sub">Presiona cualquier fórmula para calcular resultados 100% comprobados por tus hijos</p>
+        <div class="calc-screen">
+          <div class="calc-expr" id="calc-expr">&gt; Selecciona una ecuación...</div>
+          <div class="calc-result" id="calc-result">¡Listo para calcular cuánto te queremos!</div>
+        </div>
+        <div class="calc-buttons">
+          <button class="calc-btn" onclick="solveEquation(1)">➕ Seba + Isa + Leah</button>
+          <button class="calc-btn" onclick="solveEquation(2)">♾️ ∫ Sabiduría de Papá dt</button>
+          <button class="calc-btn" onclick="solveEquation(3)">📐 √(Orgullo por ti)²</button>
+          <button class="calc-btn" onclick="solveEquation(4)">🏆 Probabilidad Mejor Papá</button>
+        </div>
+      </div>
+
+      <!-- Widget 2: Graficador de la Función Corazón -->
+      <div class="widget-box heart-graph-wrap">
+        <h4 class="widget-title">📈 Gráfica de x² + (y - ³√x²)² = 1</h4>
+        <p class="widget-sub">La ecuación favorita de tus tres hijos graficada en tu pizarrón</p>
+        <canvas id="math-heart-canvas" width="320" height="220"></canvas>
+        <button class="action-btn-papa" onclick="drawHeartCurve()">
+          ✨ Graficar función de nuestro cariño
+        </button>
+      </div>
+    </div>
+
+    <!-- Diploma Oficial para Papá -->
+    <div class="diploma-card">
+      <div class="diploma-medal">🏅📐</div>
+      <h3 class="diploma-title">Diploma al Mejor Profesor de Matemáticas y Papá</h3>
+      <p class="diploma-text">
+        Otorgado con nota <strong>7.0 (Sobresaliente e Infinito)</strong> por transformar las matemáticas en arte y por ser el pilar más noble, sabio y cariñoso de nuestra familia.
+      </p>
+      <div class="diploma-signatures">
+        <span>Sebastián</span> • <span>Isabella</span> • <span>Leah</span>
+      </div>
+      <button class="action-btn-papa" onclick="burstCelebration('papa')">
+        🎉 ¡Celebrar con lluvia de números y estrellas!
+      </button>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       VISTA 3: APARTADO EXCLUSIVO PARA MAMÁ (PROFE DIFERENCIAL)
+       ======================================================================= -->
+  <section class="view-section" id="view-mama">
+    <nav class="top-nav">
+      <button class="back-btn" onclick="switchView('home')">
+        ← Volver a la Portada Familiar
+      </button>
+      <button class="back-btn" onclick="promptGate('papa')">
+        Ir al apartado de Papá 📐
+      </button>
+    </nav>
+
+    <div class="mama-banner">
+      <span class="section-tag-mama">💖 Rincón Exclusivo de Mamá • Educadora Diferencial</span>
+      <h2 class="mama-title">¡Feliz Día de la Profesora, Mamita Hermosa!</h2>
+      <div class="mama-letter-text">
+        <p>
+          Mamá, ser <strong>Profesora Diferencial</strong> no es solo una profesión, es tener un superpoder en el alma. Es mirar a cada niño con los ojos del corazón, descubrir su luz propia, adaptar el mundo con amor y demostrar que todos tenemos talentos maravillosos.
+        </p>
+        <p>
+          Esa misma ternura, empatía y vocación infinita es la que nos regalas a nosotros tres desde que nacimos. Gracias por comprendernos sin que tengamos que decir una palabra, por celebrar nuestras diferencias y por ser el abrazo más seguro y calentito del mundo.
+        </p>
+        <div class="mama-quote-highlight">
+          Enseñanza de Mamá — Lo que nos hace diferentes es exactamente lo que nos hace mágicos y únicos 🌸
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensajes individuales de los 3 hijos para Mamá -->
+    <h3 class="kids-messages-title">💌 Lo que tus 3 hijos quieren decirte hoy, Mamá</h3>
+    <div class="kids-cards-grid">
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar seba">👦🏻</div>
+          <div>
+            <div class="kid-card-name">De Sebastián</div>
+            <div class="kid-card-role">Tu hijo mayor</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          Mamá, gracias por estar siempre ahí para escucharme, apoyarme y enseñarme a mirar a los demás con empatía y respeto. Ver el amor con el que enseñas y cuidas a todos me llena de orgullo. Eres la mejor educadora y la mejor mamá que podríamos pedir. ¡Te amo mucho!
+        </p>
+        <div class="kid-card-sign">— Seba 💖</div>
+      </div>
+
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar isa">👧🏻</div>
+          <div>
+            <div class="kid-card-name">De Isabella</div>
+            <div class="kid-card-role">Tu hija de en medio</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          ¡Mamita preciosa! Gracias por tu dulzura, por tus abrazos que curan todo y por enseñarme que cada uno de nosotros brilla a su manera. Tienes el corazón más grande y bondadoso del planeta. ¡Feliz día a la profe más tierna y linda!
+        </p>
+        <div class="kid-card-sign">— Isa 🌸</div>
+      </div>
+
+      <div class="kid-msg-card">
+        <div class="kid-card-header">
+          <div class="kid-avatar leah">👧🏻</div>
+          <div>
+            <div class="kid-card-name">De Leah</div>
+            <div class="kid-card-role">Tu hija menor</div>
+          </div>
+        </div>
+        <p class="kid-card-quote">
+          Mami linda, gracias por todo tu cariño, tu dulzura y por estar siempre para mí. Me encanta abrazarte porque eres la mamá más tierna y linda de todo el mundo. Te regalo todas las flores y estrellitas del cielo en tu día. ¡Te amo infinito!
+        </p>
+        <div class="kid-card-sign">— Leah 🦋</div>
+      </div>
+    </div>
+
+    <!-- Interactivos Especiales para Mamá -->
+    <div class="interactive-grid">
+      <!-- Widget 1: El Jardín de los Súper Poderes de Mamá -->
+      <div class="widget-box">
+        <h4 class="widget-title">🌷 El Jardín de tus Dones</h4>
+        <p class="widget-sub">Toca cada florcita para hacerla florecer y descubrir lo que más admiramos de ti</p>
+        <div class="flowers-grid">
+          <button class="flower-btn" onclick="bloomFlower(this, 0)">
+            <span class="f-icon">🌸</span>
+            <span class="f-label">Empatía</span>
+          </button>
+          <button class="flower-btn" onclick="bloomFlower(this, 1)">
+            <span class="f-icon">🌻</span>
+            <span class="f-label">Paciencia</span>
+          </button>
+          <button class="flower-btn" onclick="bloomFlower(this, 2)">
+            <span class="f-icon">🌺</span>
+            <span class="f-label">Ternura</span>
+          </button>
+          <button class="flower-btn" onclick="bloomFlower(this, 3)">
+            <span class="f-icon">🌷</span>
+            <span class="f-label">Vocación</span>
+          </button>
+          <button class="flower-btn" onclick="bloomFlower(this, 4)">
+            <span class="f-icon">🌼</span>
+            <span class="f-label">Alegría</span>
+          </button>
+          <button class="flower-btn" onclick="bloomFlower(this, 5)">
+            <span class="f-icon">🦋</span>
+            <span class="f-label">Magia</span>
+          </button>
+        </div>
+        <div class="flower-reveal-box" id="flower-reveal">
+          ✨ Toca una flor de arriba para leer un mensajito especial...
+        </div>
+      </div>
+
+      <!-- Widget 2: Frasco de Abrazos y Valecitos para Mamá -->
+      <div class="widget-box">
+        <h4 class="widget-title">🫙 Frasquito de Abrazos y Regalos</h4>
+        <p class="widget-sub">Saca un papelito del frasco cada vez que quieras un mimo de Seba, Isa y Leah</p>
+        <div class="jar-container">
+          <div class="jar-hearts" id="jar-hearts">💖 🌟 🌸</div>
+          <div class="jar-note" id="jar-note">
+            Vale por un abrazo triple y apretadito de Sebastián, Isabella y Leah
+          </div>
+        </div>
+        <button class="action-btn-mama" onclick="drawJarNote()">
+          💝 Sacar otro valecito de amor del frasco
+        </button>
+      </div>
+    </div>
+
+    <!-- Diploma Oficial para Mamá -->
+    <div class="diploma-card">
+      <div class="diploma-medal">👑💖</div>
+      <h3 class="diploma-title">Diploma a la Mejor Educadora Diferencial y Mamá del Mundo</h3>
+      <p class="diploma-text">
+        Otorgado con <strong>Infinitas Estrellitas Doradas</strong> por enseñar desde el amor, por hacer que cada corazón se sienta especial y por iluminar nuestra familia cada día.
+      </p>
+      <div class="diploma-signatures">
+        <span>Sebastián</span> • <span>Isabella</span> • <span>Leah</span>
+      </div>
+      <button class="action-btn-mama" style="max-width: 380px;" onclick="burstCelebration('mama')">
+        🌸 ¡Celebrar con lluvia de corazones y flores!
+      </button>
+    </div>
+  </section>
+
+  <script>
+    /* ================= LÓGICA DE NAVEGACIÓN Y MODAL GUARDIÁN ================= */
+    let pendingTarget = null;
+
+    function promptGate(target) {
+      pendingTarget = target;
+      const overlay = document.getElementById('gate-overlay');
+      const emoji = document.getElementById('gate-emoji');
+      const title = document.getElementById('gate-title');
+      const text = document.getElementById('gate-text');
+      const confirmBtn = document.getElementById('gate-confirm-btn');
+
+      if (target === 'papa') {
+        emoji.textContent = '📐🤫';
+        title.textContent = '¡Apartado Exclusivo para Papá!';
+        text.innerHTML = 'Este rincón fue preparado por <strong>Sebastián, Isabella y Leah</strong> especialmente para el mejor <strong>Profe de Matemáticas</strong>.<br><br>¿Eres Papá entrando a ver tu sorpresa?';
+        confirmBtn.textContent = '¡Sí, soy Papá! Entrar a mi pizarrón 📐';
+        confirmBtn.style.background = '#1b3530';
+        confirmBtn.style.color = '#f4b942';
+      } else {
+        emoji.textContent = '💖🤫';
+        title.textContent = '¡Apartado Exclusivo para Mamá!';
+        text.innerHTML = 'Este rincón fue preparado por <strong>Sebastián, Isabella y Leah</strong> especialmente para la mejor <strong>Profe Diferencial</strong>.<br><br>¿Eres Mamá entrando a ver tu sorpresa?';
+        confirmBtn.textContent = '¡Sí, soy Mamá! Entrar a mi rincón 🌸';
+        confirmBtn.style.background = '#d95d78';
+        confirmBtn.style.color = '#ffffff';
+      }
+
+      confirmBtn.onclick = () => {
+        closeGate();
+        switchView(target);
+      };
+
+      overlay.classList.add('open');
+    }
+
+    function closeGate() {
+      document.getElementById('gate-overlay').classList.remove('open');
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      document.body.classList.remove('mode-papa', 'mode-mama');
+
+      if (viewName === 'papa') {
+        document.getElementById('view-papa').classList.add('active');
+        document.body.classList.add('mode-papa');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(drawHeartCurve, 300);
+        burstCelebration('papa');
+      } else if (viewName === 'mama') {
+        document.getElementById('view-mama').classList.add('active');
+        document.body.classList.add('mode-mama');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        burstCelebration('mama');
+      } else {
+        document.getElementById('view-home').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    /* ================= INTERACTIVOS DE PAPÁ (MATEMÁTICAS) ================= */
+    function solveEquation(id) {
+      const expr = document.getElementById('calc-expr');
+      const res = document.getElementById('calc-result');
+      const formulas = {
+        1: {
+          e: '> Evaluando: Sebastián + Isabella + Leah = ?',
+          r: '= ¡3 hijos súper orgullosos que te quieren al infinito (∞)! ❤️'
+        },
+        2: {
+          e: '> Evaluando: ∫₀^∞ (Sabiduría de Papá) dt',
+          r: '= Diverge a +∞. ¡Gracias por enseñarnos que todo problema tiene solución!'
+        },
+        3: {
+          e: '> Evaluando: √(Admisión + Cariño + Respeto)²',
+          r: '= |El Mejor Profe de Mates y el Mejor Papá del Mundo| 🏆'
+        },
+        4: {
+          e: '> Evaluando: P(Papá sea nuestro héroe favorito)',
+          r: '= 1.00 (100% de certeza matemática sin margen de error) ✨'
+        }
+      };
+      expr.textContent = formulas[id].e;
+      res.textContent = formulas[id].r;
+    }
+
+    let heartAnimId = null;
+    function drawHeartCurve() {
+      const canvas = document.getElementById('math-heart-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      if (heartAnimId) cancelAnimationFrame(heartAnimId);
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Ejes coordenados suaves tipo pizarrón
+      ctx.strokeStyle = 'rgba(107, 212, 205, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h / 2 + 15);
+      ctx.lineTo(w, h / 2 + 15);
+      ctx.moveTo(w / 2, 0);
+      ctx.lineTo(w / 2, h);
+      ctx.stroke();
+
+      // Animación paramétrica del corazón
+      let t = 0;
+      const maxT = Math.PI * 2;
+      ctx.strokeStyle = '#f4b942';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+
+      function step() {
+        for (let i = 0; i < 4; i++) {
+          if (t > maxT) {
+            ctx.fillStyle = 'rgba(244, 185, 66, 0.18)';
+            ctx.fill();
+            ctx.fillStyle = '#f3f7f5';
+            ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('f(Papá) = Amor Infinito', w / 2, h / 2 + 12);
+            return;
+          }
+          const x = 16 * Math.pow(Math.sin(t), 3);
+          const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+          const px = w / 2 + x * 4.8;
+          const py = h / 2 - y * 4.8 + 8;
+
+          if (t === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+          t += 0.03;
+        }
+        ctx.stroke();
+        heartAnimId = requestAnimationFrame(step);
+      }
+      step();
+    }
+
+    /* ================= INTERACTIVOS DE MAMÁ (DIFERENCIAL) ================= */
+    const flowerMessages = [
+      "🌸 Empatía Mágica — Tienes el don de conectar con cada corazón y hacer que tanto tus alumnos como nosotros nos sintamos siempre comprendidos.",
+      "🌻 Paciencia Infinita — Sabes que cada semillita florece a su propio tiempo y siempre acompañas cada paso con amor.",
+      "🌺 Ternura que Sana — Un abrazo tuyo o una palabra dulce tuya tiene el poder de arreglar cualquier día difícil.",
+      "🌷 Vocación de Oro — Ser Educadora Diferencial es enseñar con el alma, y tú dejas una huella hermosa en cada vida que tocas.",
+      "🌼 Alegría del Hogar — Tu sonrisa ilumina toda nuestra casa. ¡Gracias por llenarnos de cariño a Seba, Isa y Leah!",
+      "🦋 Magia Única — Nos enseñaste que nuestras diferencias nos hacen especiales. ¡Eres nuestra reina, Mamita!"
+    ];
+
+    function bloomFlower(btn, idx) {
+      btn.classList.add('bloomed');
+      const box = document.getElementById('flower-reveal');
+      box.textContent = flowerMessages[idx];
+    }
+
+    const jarNotes = [
+      "Vale por un abrazo triple y apretadito de Sebastián, Isabella y Leah 🤗",
+      "Vale por desayunito o tecito preparado con mucho amor por tus 3 hijos ☕🥐",
+      "¡Eres la Educadora Diferencial más maravillosa y tierna del mundo! 🌟",
+      "Vale por mil besitos de Leah, mil sonrisas de Isa y toda la admiración de Seba 💖",
+      "Vale por una tarde de descanso siendo regaloneada como la reina que eres 👑🌸",
+      "Gracias Mamá por enseñarnos que el amor es el idioma más poderoso de todos 🦋"
+    ];
+    let currentJarIdx = 0;
+
+    function drawJarNote() {
+      currentJarIdx = (currentJarIdx + 1) % jarNotes.length;
+      const noteEl = document.getElementById('jar-note');
+      const heartsEl = document.getElementById('jar-hearts');
+      const icons = ['💖 🌟 🌸', '🌷 🦋 💝', '✨ 🌺 💕', '👑 🌸 💖'];
+      heartsEl.textContent = icons[currentJarIdx % icons.length];
+      noteEl.style.opacity = 0;
+      setTimeout(() => {
+        noteEl.textContent = jarNotes[currentJarIdx];
+        noteEl.style.opacity = 1;
+      }, 150);
+    }
+
+    /* ================= SISTEMA DE PARTÍCULAS Y CELEBRACIÓN ================= */
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function burstCelebration(type) {
+      const symbolsGeneral = ['❤️', '✨', '🎓', '🌟', '💛'];
+      const symbolsPapa = ['π', '∞', '∑', '√', '📐', '⭐', '7.0', '❤️'];
+      const symbolsMama = ['🌸', '💖', '🦋', '🌷', '🌟', '💝', '🌺'];
+
+      const pool = type === 'papa' ? symbolsPapa : (type === 'mama' ? symbolsMama : symbolsGeneral);
+
+      for (let i = 0; i < 36; i++) {
+        particles.push({
+          x: window.innerWidth / 2 + (Math.random() - 0.5) * 260,
+          y: window.innerHeight * 0.45,
+          vx: (Math.random() - 0.5) * 11,
+          vy: -Math.random() * 10 - 4,
+          gravity: 0.22,
+          symbol: pool[Math.floor(Math.random() * pool.length)],
+          size: 18 + Math.random() * 14,
+          alpha: 1,
+          rotation: (Math.random() - 0.5) * 0.4
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.alpha -= 0.011;
+
+        if (p.alpha <= 0 || p.y > canvas.height + 40) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.font = `${p.size}px "Plus Jakarta Sans", serif`;
+        ctx.fillText(p.symbol, p.x, p.y);
+        ctx.restore();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* ================= CAJITA DE MÚSICA TIERNA (WEB AUDIO API) ================= */
+    let audioCtx = null;
+    let isPlayingMusic = false;
+    let musicInterval = null;
+
+    const melodyNotes = [
+      523.25, 659.25, 783.99, 1046.50, 783.99, 659.25,
+      587.33, 698.46, 880.00, 698.46,
+      523.25, 659.25, 783.99, 659.25, 523.25
+    ];
+    let noteIdx = 0;
+
+    function playGentleNote(freq) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.1);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.15);
+    }
+
+    function toggleMusic() {
+      const btn = document.getElementById('music-toggle');
+      const label = document.getElementById('music-label');
+      const icon = document.getElementById('music-icon');
+
+      if (!isPlayingMusic) {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        isPlayingMusic = true;
+        btn.classList.add('playing');
+        icon.textContent = '🎶';
+        label.textContent = 'Pausar melodía';
+        playGentleNote(melodyNotes[noteIdx]);
+        musicInterval = setInterval(() => {
+          noteIdx = (noteIdx + 1) % melodyNotes.length;
+          playGentleNote(melodyNotes[noteIdx]);
+        }, 650);
+      } else {
+        isPlayingMusic = false;
+        btn.classList.remove('playing');
+        icon.textContent = '🎵';
+        label.textContent = 'Melodía tierna';
+        clearInterval(musicInterval);
+      }
+    }
+  </script>
+</body>
+</html>
